@@ -4,9 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+
+    @*<link href="~/Content/kendo/kendo.mobile.all.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/kendo.bootstrap.mobile.min.css" rel="stylesheet" />*@
+
+    @*@Styles.Render("~/Content/css")*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/kendojs")
+    @Styles.Render("~/Content/kendo/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <link href="@Url.Content("~/css/bootstrap.css")" rel="stylesheet">
+    <link href="@Url.Content("~/css/modern-business.css")" rel="stylesheet">
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -37,8 +49,8 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
 </body>
 </html>
