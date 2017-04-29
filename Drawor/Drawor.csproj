@@ -195,6 +195,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Financeiro\FinancasController.cs" />
     <Compile Include="Financeiro\Models\Conta.cs" />
     <Compile Include="Financeiro\Models\Despesa.cs" />
     <Compile Include="Financeiro\Models\TipoDespesa.cs" />
@@ -1314,6 +1315,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Financas\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
