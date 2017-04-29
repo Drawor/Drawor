@@ -1,4 +1,5 @@
 ﻿using Drawor.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,7 +19,12 @@ namespace Drawor
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+            // Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+           
+
+
         }
+        
     }
+   
 }

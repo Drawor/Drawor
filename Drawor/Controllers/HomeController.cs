@@ -10,6 +10,10 @@ namespace Drawor.Controllers
     {
         public ActionResult Index()
         {
+
+            Mappers.MapperConfig mapper = new Mappers.MapperConfig();
+
+            mapper.TestConection();
             return View();
         }
 

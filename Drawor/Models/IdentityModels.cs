@@ -23,10 +23,13 @@ namespace Drawor.Models
         public ApplicationDbContext()
             : base("AiacosDB", throwIfV1Schema: false)
         {
+          
         }
 
         public static ApplicationDbContext Create()
         {
+           
+            
             return new ApplicationDbContext();
         }
     }
