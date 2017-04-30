@@ -70,7 +70,9 @@
 }
 
 <script>
-
+    $(function () {
+        swal("Good job!", "You clicked the button!", "success")
+    });
     function Create()
     {
         var url = '@Url.Action("NovoTipoDespesa", "Financas")';

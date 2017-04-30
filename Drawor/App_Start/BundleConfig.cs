@@ -38,6 +38,17 @@ namespace Drawor
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/Site.css"));
+
+
+
+            bundles.Add(new ScriptBundle("~/bundles/SweetAlert").Include(
+                        "~/Scripts/sweetalert.js",
+                         "~/Scripts/sweetalert.min.js"));
+            
+
+
+
+
         }
     }
 }
