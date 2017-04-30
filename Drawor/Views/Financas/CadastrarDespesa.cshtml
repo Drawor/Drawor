@@ -14,24 +14,24 @@
 <div class="col-md-12">
     @using (Html.BeginForm("Teste", "Pages", FormMethod.Post))
     {
-        @(Html.Kendo().Grid(Model)
-                .Name("Grid")
-                //.ToolBar(toolBar =>
-                //    toolBar.Custom()
-                //        .Text("Export To PDF")
-                //        .HtmlAttributes(new { id = "export" })
-                //        .Url(Url.Action("TesteAssemblyPDF", "ExportPDF")))
-                .ToolBar(toolBar => toolBar.Template("<a class='k-button k-button-icontext' onclick='ExportSelectedResults()' href='#'></span>Export To PDF</a>"))
-                .Columns(columns =>
-                {
-                    //columns.Bound(p => p.Resultid).Hidden();
-                    //columns.Bound(p => p.Type).Hidden();
-                    //columns.Bound(p => p.QuoteResponsePriceID).Hidden();
+        @*@(Html.Kendo().Grid(Model)
+                .Name("Grid")*@
+            //.ToolBar(toolBar =>
+            //    toolBar.Custom()
+            //        .Text("Export To PDF")
+            //        .HtmlAttributes(new { id = "export" })
+            //        .Url(Url.Action("TesteAssemblyPDF", "ExportPDF")))
+            //.ToolBar(toolBar => toolBar.Template("<a class='k-button k-button-icontext' onclick='ExportSelectedResults()' href='#'></span>Export To PDF</a>"))
+            //.Columns(columns =>
+            //{
+            //columns.Bound(p => p.Resultid).Hidden();
+            //columns.Bound(p => p.Type).Hidden();
+            //columns.Bound(p => p.QuoteResponsePriceID).Hidden();
 
-                    //columns.Template(c => null).ClientTemplate("<a href='" + Url.Action("PrintSelectedQuote", "LTL") + "/#=QuoteResponsePriceID#'" + "><div class='k-button k-button-icontext'>Print</div></a>").Width(40);
-                    columns.Command(command => command.Custom("Select").Click("CheckAvaliableCredit")).Width(60);
-                    columns.Command(command => command.Custom("Print").Click("PrintSelectedQuote")).Width(60);
-                })
+            //columns.Template(c => null).ClientTemplate("<a href='" + Url.Action("PrintSelectedQuote", "LTL") + "/#=QuoteResponsePriceID#'" + "><div class='k-button k-button-icontext'>Print</div></a>").Width(40);
+            @*columns.Command(command => command.Custom("Select").Click("CheckAvaliableCredit")).Width(60);
+            columns.Command(command => command.Custom("Print").Click("PrintSelectedQuote")).Width(60);
+        })
                 .NoRecords("We couldn't find a carrier with this parameters. Please review your input or try again later")
                 .Pageable()
 
@@ -46,14 +46,63 @@
                     .PageSize(100)
                     .ServerOperation(false)
                     )
-        )
-        @Html.HiddenFor(model => model.FirstOrDefault().Quote_id)
+        )*@
+       
         @*
             <div align="right">
                 @(Html.Kendo().Button().Name("submit").HtmlAttributes(new { type = "submit", @class = "k-primary" }).Content("Continue with Shipment"))
             </div>
         *@
+        <div id='myModal' class='modal'>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='myModalContent'></div>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            @(Html.Kendo().Button()
+                                           .Name("submitFeed")
+                                           .Content("SubmitFeed")
+                                           .HtmlAttributes(new { type = "button" })
+                                           .Events(ev => ev.Click("getForm")))
+        </div>
+
     }
 
 
 </div>
+
+
+
+<script type="text/javascript">
+    function getForm()
+    {
+                @*$(this).load('@Url.Action("CadastroTipoDespesa", "Financas")');*@
+        var TeamDetailPostBackURL = '/Financas/CadastroTipoDespesa';
+        var options = { "backdrop": "static", keyboard: true }; 
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { },
+                    datatype: "json",
+                    success: function (data) {
+                      
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+        });  
+
+                $("#closbtn").click(function () {
+                    $('#myModal').modal('hide');
+                }); 
+      
+    }
+</script>

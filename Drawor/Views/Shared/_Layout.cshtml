@@ -31,15 +31,31 @@
                 </button>
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+            <li class="collapse navbar-collapse navbar-ex1-collapse">
+             
+                <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+                    <li id="idFinanceiro" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro Financeiro<b class="caret"></b></a>
+
+                        <ul class="dropdown-menu">
+                            <li id="viewCadastroDespesa">@Html.ActionLink("Cadastro de Despesa", "CadastroDespesa", "Financas")</li>
+
+                            <li id="viewCadastroTipoDespesa">@Html.ActionLink("Cadastro de Tipo de Despesa", "CadastroTipoDespesa", "Financas")</li>
+
+                        </ul>
+                    </li>
+                   
+
                 </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
+                    @Html.Partial("_LoginPartial")
+               
+            </li>
+
+</div>   
     </div>
     <div class="container body-content">
         @RenderBody()

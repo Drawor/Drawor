@@ -11,16 +11,17 @@ namespace Drawor.Controllers
     {
         public ActionResult Index()
         {
-            Financeiro.Models.Despesa var = new Financeiro.Models.Despesa();
+            Financeiro.Models.Despesa var = new Financeiro.Models.Despesa()
+            {
+                Categoria = new Financeiro.Models.TipoDespesa { Cor = "Cor", Nome = "Nome" },
+                Conta = new Financeiro.Models.Conta { Nome = "Nome", SaldoAtual = 15.15 },
+                Descricao = "Descricao",
+                EstaPago = true,
+                Valor = 15.16,
+                Vencimento = DateTime.Now
+            };
 
-            var.Categoria = new Financeiro.Models.TipoDespesa { Cor = "Cor", Nome = "Nome" };
-            var.Conta = new Financeiro.Models.Conta {Nome = "Nome", SaldoAtual= 15.15 };
-            var.Descricao = "Descricao";
-            var.EstaPago = true;
-            var.Valor = 15.16;
-            var.Vencimento = DateTime.Now;
-            
-            var test = Mapper.Map<Financeiro.ViewModels.DespesaViewModel>(var);
+            //    var test = Mapper.Map<Financeiro.ViewModels.DespesaViewModel>(var);
             return View();
         }
 

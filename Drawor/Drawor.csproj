@@ -200,9 +200,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Financeiro\FinancasController.cs" />
+    <Compile Include="Financeiro\Mapper\MapperFinanceiro.cs" />
     <Compile Include="Financeiro\Models\Conta.cs" />
     <Compile Include="Financeiro\Models\Despesa.cs" />
     <Compile Include="Financeiro\Models\TipoDespesa.cs" />
+    <Compile Include="Financeiro\Processo\ProcessoFinancas.cs" />
     <Compile Include="Financeiro\ViewModels\DespesaViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -213,6 +215,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Tools\ToolsDataTImecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -1318,6 +1321,7 @@
     <Content Include="Scripts\kendo\kendo.web.min.js.map" />
     <Content Include="Scripts\kendo\kendo.window.min.js.map" />
     <Content Include="Views\Financas\CadastrarDespesa.cshtml" />
+    <Content Include="Views\Financas\CadastroTipoDespesa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
