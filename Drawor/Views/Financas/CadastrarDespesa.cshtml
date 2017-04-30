@@ -1,0 +1,59 @@
+﻿@*@model IEnumerable<Drawor.Financeiro.Models.Despesa>*@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">Cadastro de Despesas</h1>
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">Cadastro de Despesas</li>
+            </ol>
+        </div>
+    </div><!-- /.row -->
+</div>
+
+<div class="col-md-12">
+    @using (Html.BeginForm("Teste", "Pages", FormMethod.Post))
+    {
+        @(Html.Kendo().Grid(Model)
+                .Name("Grid")
+                //.ToolBar(toolBar =>
+                //    toolBar.Custom()
+                //        .Text("Export To PDF")
+                //        .HtmlAttributes(new { id = "export" })
+                //        .Url(Url.Action("TesteAssemblyPDF", "ExportPDF")))
+                .ToolBar(toolBar => toolBar.Template("<a class='k-button k-button-icontext' onclick='ExportSelectedResults()' href='#'></span>Export To PDF</a>"))
+                .Columns(columns =>
+                {
+                    //columns.Bound(p => p.Resultid).Hidden();
+                    //columns.Bound(p => p.Type).Hidden();
+                    //columns.Bound(p => p.QuoteResponsePriceID).Hidden();
+
+                    //columns.Template(c => null).ClientTemplate("<a href='" + Url.Action("PrintSelectedQuote", "LTL") + "/#=QuoteResponsePriceID#'" + "><div class='k-button k-button-icontext'>Print</div></a>").Width(40);
+                    columns.Command(command => command.Custom("Select").Click("CheckAvaliableCredit")).Width(60);
+                    columns.Command(command => command.Custom("Print").Click("PrintSelectedQuote")).Width(60);
+                })
+                .NoRecords("We couldn't find a carrier with this parameters. Please review your input or try again later")
+                .Pageable()
+
+                .Sortable()
+                .Scrollable(scr => scr.Height(430))
+                .Filterable()
+                 .Selectable(selectable => selectable
+              .Mode(GridSelectionMode.Multiple))
+                .Events(events => events.Change("resultsChange"))
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(100)
+                    .ServerOperation(false)
+                    )
+        )
+        @Html.HiddenFor(model => model.FirstOrDefault().Quote_id)
+        @*
+            <div align="right">
+                @(Html.Kendo().Button().Name("submit").HtmlAttributes(new { type = "submit", @class = "k-primary" }).Content("Continue with Shipment"))
+            </div>
+        *@
+    }
+
+
+</div>

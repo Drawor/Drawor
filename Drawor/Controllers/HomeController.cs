@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,10 +11,16 @@ namespace Drawor.Controllers
     {
         public ActionResult Index()
         {
+            Financeiro.Models.Despesa var = new Financeiro.Models.Despesa();
 
-            Mappers.MapperConfig mapper = new Mappers.MapperConfig();
-
-            mapper.TestConection();
+            var.Categoria = new Financeiro.Models.TipoDespesa { Cor = "Cor", Nome = "Nome" };
+            var.Conta = new Financeiro.Models.Conta {Nome = "Nome", SaldoAtual= 15.15 };
+            var.Descricao = "Descricao";
+            var.EstaPago = true;
+            var.Valor = 15.16;
+            var.Vencimento = DateTime.Now;
+            
+            var test = Mapper.Map<Financeiro.ViewModels.DespesaViewModel>(var);
             return View();
         }
 
