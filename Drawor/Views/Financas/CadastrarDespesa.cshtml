@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<Drawor.Financeiro.Models.Despesa>*@
+﻿@model Drawor.Financeiro.ViewModels.DespesaViewModel
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -12,6 +12,27 @@
 </div>
 
 <div class="col-md-12">
+    <div class="form-group">
+        <div class="editor-label col-md-4">
+            <label for="OriginZip" class="required">Nome</label>
+        </div>
+        <div class="editor-field col-md-8">
+            @(Html.Kendo().DropDownList()
+                            .Name("Conta")
+                            .OptionLabel("Contas")
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .AutoBind(false)
+                            //.Events(e => e.Change("filtersChange"))
+                            .HtmlAttributes(new { style = "width: 150px;" })
+                            .DataSource(ds =>
+                            {
+                                ds.Read("DropDownListContas", "DropDownListFinanceiro");
+                            })
+            )
+        </div>
+    </div>
+   
     @using (Html.BeginForm("Teste", "Pages", FormMethod.Post))
     {
         @*@(Html.Kendo().Grid(Model)

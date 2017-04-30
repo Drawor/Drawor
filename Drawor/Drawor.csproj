@@ -197,14 +197,17 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="AutoMapper\AutoMapperConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DropDownListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Financeiro\DropDownListFinanceiroController.cs" />
     <Compile Include="Financeiro\FinancasController.cs" />
     <Compile Include="Financeiro\Mapper\MapperFinanceiro.cs" />
     <Compile Include="Financeiro\Models\Conta.cs" />
     <Compile Include="Financeiro\Models\Despesa.cs" />
     <Compile Include="Financeiro\Models\TipoDespesa.cs" />
     <Compile Include="Financeiro\Processo\ProcessoFinancas.cs" />
+    <Compile Include="Financeiro\ViewModels\ContaViewModel.cs" />
     <Compile Include="Financeiro\ViewModels\DespesaViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1332,9 +1335,12 @@
     <Content Include="Scripts\kendo\kendo.window.min.js.map" />
     <Content Include="Views\Financas\CadastrarDespesa.cshtml" />
     <Content Include="Views\Financas\CadastroTipoDespesa.cshtml" />
+    <Content Include="Views\Financas\CadastroConta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\DropDownListFinanceiro\" />
+    <Folder Include="Views\DropDownList\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,4 +1,4 @@
-﻿@model Drawor.Financeiro.Models.TipoDespesa
+﻿@model Drawor.Financeiro.Models.Conta
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -11,17 +11,15 @@
     </div><!-- /.row -->
 </div>
 
-@using (Html.BeginForm("NovoTipoDespesa", "Financas", FormMethod.Post))
-{
     @Html.ValidationSummary(true)
     <fieldset>
 
         <form class="form">
-          
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default">
-                        <div class="panel-heading"><h4>Tipo de Despesa</h4></div>
+                        <div class="panel-heading"><h4>Conta</h4></div>
                         <div class="panel-body">
 
                             <div class="form-group">
@@ -29,54 +27,51 @@
                                     <label for="OriginZip" class="required">Nome</label>
                                 </div>
                                 <div class="editor-field col-md-8">
-                                    @(Html.Kendo().TextBoxFor(m =>m.Nome).Name("Nome").HtmlAttributes(new { required = "required", style = "width:200px" }))
+                                    @(Html.Kendo().TextBoxFor(m => m.Nome).Name("Nome").HtmlAttributes(new { required = "required", style = "width:200px" }))
                                 </div>
                             </div>
 
-                            @*<div class="form-group">
+                            <div class="form-group">
                                 <div class="editor-label col-md-4">
-                                    <label for="OriginZip" class="required">Zip Code</label>
+                                    <label for="OriginZip" class="required">Saldo Atual</label>
                                 </div>
                                 <div class="editor-field col-md-8">
-                                    @(Html.Kendo().TextBoxFor(m => m.Nome).Name("Nome").HtmlAttributes(new { required = "required", style = "width:200px" }))
+                                    @(Html.Kendo().NumericTextBoxFor(m => m.SaldoAtual).Name("Saldo").HtmlAttributes(new { required = "required", style = "width:200px", format = "c" }))
                                 </div>
-                            </div>*@
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
 
-
-                @*<div id="Create Tipo Despesa" align="right">
-                @(Html.Kendo().Button().Name("submit").HtmlAttributes(new { type = "submit", @class = "k-primary" }).Content("Criar Tipo de Despesa"))
-                </div>*@
-         
             <div>
                 @(Html.Kendo().Button()
-                                           .Name("CriaTipodeDespesa")
-                                           .Content("Criar Tipo de Despesa")
+                                           .Name("CriarConta")
+                                           .Content("Criar Conta")
                                            .HtmlAttributes(new { type = "button" })
-                                           .Events(ev => ev.Click("Create")))
+                                           .Events(ev => ev.Click("CriarConta")))
             </div>
 
 
             @*<div class="modal-header" align="right">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Close</button>
-                <h4 class="modal-title" id="myModalLabel"></h4>
-            </div>*@ 
-          
-            </form>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>*@
+
+        </form>
     </fieldset>
-}
+
 
 <script>
-    
-    function Create()
+
+    function CriarConta()
     {
-        var url = '@Url.Action("NovoTipoDespesa", "Financas")';
+        var url = '@Url.Action("NovaConta", "Financas")';
 
         var dto = {
-            Nome :$("#Nome").val()
+            Nome: $("#Nome").val(),
+            SaldoAtual: $("#SaldoAtual").val()
         }
 
             $.ajax({
@@ -98,13 +93,13 @@
 </script>
 
 @*<script>
-    function close()
-    {
+        function close()
+        {
 
-        $('#myModal').modal('hide');
-  
+            $('#myModal').modal('hide');
 
-    }
-</script>*@
+
+        }
+    </script>*@
 
 

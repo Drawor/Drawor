@@ -23,12 +23,25 @@ namespace Drawor.Financeiro
         {
             return View("CadastroTipoDespesa");
         }
-        public ActionResult NovoTipoDespesa(Financeiro.Models.TipoDespesa dto)
+        public JsonResult NovoTipoDespesa(Financeiro.Models.TipoDespesa dto)
         {
             var currentUserId = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(HttpContext.User.Identity.GetUserId()).Id;
             Processo.ProcessoFinancas processo = new Processo.ProcessoFinancas();
             processo.CriarTipoDespesa(dto, currentUserId);
-            return null;
+
+            return Json(true);
+        }
+
+        public ActionResult CadastroConta()
+        {
+            return View("CadastroConta");
+        }
+        public JsonResult NovaConta(Models.Conta dto)
+        {
+            var currentUserId = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(HttpContext.User.Identity.GetUserId()).Id;
+            Processo.ProcessoFinancas processo = new Processo.ProcessoFinancas();
+            processo.CriarConta(dto, currentUserId);
+            return Json(true);
         }
 
         
