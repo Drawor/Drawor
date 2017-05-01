@@ -1336,6 +1336,7 @@
     <Content Include="Views\Financas\CadastrarDespesa.cshtml" />
     <Content Include="Views\Financas\CadastroTipoDespesa.cshtml" />
     <Content Include="Views\Financas\CadastroConta.cshtml" />
+    <Content Include="Views\Financas\Despesas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

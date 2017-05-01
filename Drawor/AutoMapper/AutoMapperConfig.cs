@@ -28,6 +28,6 @@ namespace Drawor.AutoMapper
 
             return views;
         }
-
+       
     }
 }

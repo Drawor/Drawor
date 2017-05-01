@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using Drawor.Financeiro.Models;
+using Drawor.Financeiro.ViewModels;
 
 namespace Drawor.Financeiro.Mapper
 {
@@ -12,8 +13,9 @@ namespace Drawor.Financeiro.Mapper
     {
         Tools.ToolsDataTImecs toolDateTime = null;
         private string StringConnection = string.Empty;
-        private string InsertDespesa = "INSERT INTO TiposDespesa (Nome,Cor,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Cor,@CreateTime,@CreateBy,@Obsoleto)";
+        private string InsertTipoDespesa = "INSERT INTO TiposDespesa (Nome,Cor,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Cor,@CreateTime,@CreateBy,@Obsoleto)";
         private string InsertConta = "INSERT INTO Contas (Nome,Saldo,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Saldo,@CreateTime,@CreateBy,@Obsoleto)";
+        private string InsertDespesas = "INSERT INTO Despesas (EstaPago,Vencimento,TipoDespesaId,ContaId,Valor,CreateTime,CreateBy,Obsoleto) VALUES(@EstaPago,@Vencimento,@TipoDespesaId,@ContaId,@Valor,@CreateTime,@CreateBy,@Obsoleto)";
         private string SelectContasAtivas = "SELECT * Contas where obsoleto = false";
         private string SelectContasAtivasDropDownList = "SELECT Id,Nome from Contas where Obsoleto = 'FALSE'";
         private string SelectTipoDespesaAtivasDropDownList = "SELECT Id,Nome from TiposDespesa where Obsoleto = 'FALSE'";
@@ -23,7 +25,6 @@ namespace Drawor.Financeiro.Mapper
             StringConnection = Mappers.MapperConfig.connetionStringWEB;
             toolDateTime = new Tools.ToolsDataTImecs();
         }
-
         internal void CriarConta(Conta dto, string currentUserId)
         {
             using (SqlConnection connection = new SqlConnection(StringConnection))
@@ -48,6 +49,68 @@ namespace Drawor.Financeiro.Mapper
 
                 }
             }
+        }
+        internal void CriarNovaDespesa(DespesaViewModel novaDespesa,string currentUserId)
+        {
+            using (SqlConnection connection = new SqlConnection(StringConnection))
+            {
+                try
+                {
+                    using (SqlConnection cn = new SqlConnection(StringConnection))
+                    using (SqlCommand cmd = new SqlCommand(InsertDespesas, cn))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@EstaPago", true));
+                        cmd.Parameters.Add(new SqlParameter("@Vencimento", novaDespesa.Vencimento));
+                        cmd.Parameters.Add(new SqlParameter("@TipoDespesaId", Convert.ToInt32(novaDespesa.TipoDespesa)));
+                        cmd.Parameters.Add(new SqlParameter("@ContaId", Convert.ToInt32(novaDespesa.Conta)));
+                        cmd.Parameters.Add(new SqlParameter("@Valor", Convert.ToDecimal(novaDespesa.Valor)));
+                        cmd.Parameters.Add(new SqlParameter("@CreateTime",DateTime.Now));
+                        cmd.Parameters.Add(new SqlParameter("@CreateBy", currentUserId));
+                        cmd.Parameters.Add(new SqlParameter("@Obsoleto", false));
+                        cn.Open();
+                        cmd.ExecuteNonQuery();
+                        cn.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+
+        internal List<Despesa> PegarTodasDespesas()
+        {
+            List<Despesa> despesas = new List<Despesa>();
+            using (SqlConnection connection = new SqlConnection(StringConnection))
+            {
+                try
+                {
+                    //   private string InsertConta = "INSERT INTO Contas (Nome,Saldo,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Saldo,@CreateTime,@CreateBy,@Obsoleto)";
+                    connection.Open();
+                    var command = new SqlCommand(SelectTipoDespesaAtivasDropDownList, connection);
+                    var dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        Despesa Despesa = new Despesa();
+                        ////string ID = dataReader["ID"].ToString();
+                        //tipoDespesa.Id = Convert.ToInt32(dataReader["Id"]);
+                        //tipoDespesa.Nome = dataReader["Nome"].ToString();
+
+                        despesas.Add(Despesa);
+
+                    }
+                    dataReader.Close();
+                    command.Dispose();
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return despesas;
         }
 
         internal List<TipoDespesa> PegarTodosTiposDeDespesaAtivosDropDownList()
@@ -128,7 +191,7 @@ namespace Drawor.Financeiro.Mapper
                 try
                 {   
                     using (SqlConnection cn = new SqlConnection(StringConnection))
-                    using (SqlCommand cmd = new SqlCommand(InsertDespesa, cn))
+                    using (SqlCommand cmd = new SqlCommand(InsertTipoDespesa, cn))
                     {
                         cmd.Parameters.Add(new SqlParameter("@Nome", tipoDespesa.Nome));
                         cmd.Parameters.Add(new SqlParameter("@Cor", tipoDespesa.Cor ?? DBNull.Value.ToString()));

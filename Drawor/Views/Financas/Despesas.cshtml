@@ -1,0 +1,35 @@
+﻿
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">Despesas</h1>
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">Despesas</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+@(Html.Kendo().Grid<Drawor.Financeiro.ViewModels.DespesaViewModel>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Descricao).Title("Descrição");
+        columns.Bound(p => p.TipoDespesa).Title("Tipo de Despesa");
+        columns.Bound(p => p.Conta).Title("Conta");
+        columns.Bound(p => p.Vencimento).Format("{0:dd/MM/yyyy}").Title("Vencimento");
+        columns.Bound(p => p.Valor).Format("{0:c}").Title("Valor"); ;
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:550px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Read(read => read.Action("Orders_Read", "Grid"))
+     )
+)

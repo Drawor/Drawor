@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Drawor.Financeiro.Models;
+using Drawor.Financeiro.ViewModels;
 
 namespace Drawor.Financeiro.Processo
 {
@@ -38,6 +39,13 @@ namespace Drawor.Financeiro.Processo
             return list;
         }
 
+        internal void CriarNovaDespesa(DespesaViewModel novaDespesa, string currentUserId)
+        {
+            Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
+            mapper.CriarNovaDespesa(novaDespesa, currentUserId);
+
+        }
+
         internal List<SelectListItem> PegarTodosTiposDespesaDropDownList()
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -54,6 +62,13 @@ namespace Drawor.Financeiro.Processo
             return list;
         }
 
-      
+        internal List<DespesaViewModel> PegarTodasDespesasViewModel()
+        {
+            List<DespesaViewModel> despesasViewModel = new List<DespesaViewModel>();
+            Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
+            List<Despesa> tiposDespesa = mapper.PegarTodasDespesas();
+
+            return despesasViewModel;
+        }
     }
 }
