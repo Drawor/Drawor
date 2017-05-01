@@ -16,12 +16,12 @@ namespace Drawor.AutoMapper
             views = (from v in despesas
                      select new Financeiro.ViewModels.DespesaViewModel
                      {
-                         Categoria = v.Categoria.Nome,
+                         TipoDespesa = v.Categoria.Nome,
                          Conta = v.Conta.Nome,
                          Descricao = v.Descricao,
                          EstaPago = v.EstaPago,
                          Valor = v.Valor,
-                         Vencimento = v.Vencimento.ToShortDateString(),
+                         Vencimento = v.Vencimento,
                          
                      }).ToList();
 

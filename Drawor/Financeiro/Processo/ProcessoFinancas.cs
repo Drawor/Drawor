@@ -37,5 +37,23 @@ namespace Drawor.Financeiro.Processo
             }
             return list;
         }
+
+        internal List<SelectListItem> PegarTodosTiposDespesaDropDownList()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
+            List<TipoDespesa> tiposDespesa = mapper.PegarTodosTiposDeDespesaAtivosDropDownList();
+
+            foreach (var item in tiposDespesa)
+            {
+                SelectListItem listItem = new SelectListItem();
+                listItem.Value = item.Id.ToString();
+                listItem.Text = item.Nome;
+                list.Add(listItem);
+            }
+            return list;
+        }
+
+      
     }
 }

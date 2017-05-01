@@ -19,6 +19,10 @@ namespace Drawor.Financeiro
         {
             return View("CadastrarDespesa");
         }
+        public ActionResult NovaDespesaDespesa(ViewModels.DespesaViewModel novaDespesa)
+        {
+            return View("CadastrarDespesa");
+        }
         public ActionResult CadastroTipoDespesa()
         {
             return View("CadastroTipoDespesa");

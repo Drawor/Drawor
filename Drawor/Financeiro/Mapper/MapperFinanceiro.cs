@@ -12,10 +12,11 @@ namespace Drawor.Financeiro.Mapper
     {
         Tools.ToolsDataTImecs toolDateTime = null;
         private string StringConnection = string.Empty;
-        private string InsertDespesa = "INSERT INTO TipoDespesa (Nome,Cor,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Cor,@CreateTime,@CreateBy,@Obsoleto)";
+        private string InsertDespesa = "INSERT INTO TiposDespesa (Nome,Cor,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Cor,@CreateTime,@CreateBy,@Obsoleto)";
         private string InsertConta = "INSERT INTO Contas (Nome,Saldo,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Saldo,@CreateTime,@CreateBy,@Obsoleto)";
         private string SelectContasAtivas = "SELECT * Contas where obsoleto = false";
         private string SelectContasAtivasDropDownList = "SELECT Id,Nome from Contas where Obsoleto = 'FALSE'";
+        private string SelectTipoDespesaAtivasDropDownList = "SELECT Id,Nome from TiposDespesa where Obsoleto = 'FALSE'";
 
         public MapperFinanceiro()
         {
@@ -47,6 +48,40 @@ namespace Drawor.Financeiro.Mapper
 
                 }
             }
+        }
+
+        internal List<TipoDespesa> PegarTodosTiposDeDespesaAtivosDropDownList()
+        {
+            List<TipoDespesa> tipoDespesas = new List<TipoDespesa>();
+            using (SqlConnection connection = new SqlConnection(StringConnection))
+            {
+                try
+                {
+                    //   private string InsertConta = "INSERT INTO Contas (Nome,Saldo,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Saldo,@CreateTime,@CreateBy,@Obsoleto)";
+                    connection.Open();
+                    var command = new SqlCommand(SelectTipoDespesaAtivasDropDownList, connection);
+                    var dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        TipoDespesa tipoDespesa = new TipoDespesa();
+                        //string ID = dataReader["ID"].ToString();
+                        tipoDespesa.Id = Convert.ToInt32(dataReader["Id"]);
+                        tipoDespesa.Nome = dataReader["Nome"].ToString();
+
+                        tipoDespesas.Add(tipoDespesa);
+
+                    }
+                    dataReader.Close();
+                    command.Dispose();
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+            return tipoDespesas;
         }
 
         internal List<Conta> PegarTodasContasAtivas()
@@ -86,7 +121,6 @@ namespace Drawor.Financeiro.Mapper
 
             return contas;
         }
-
         public void CriarTipoDespesa(Financeiro.Models.TipoDespesa tipoDespesa,string currentUserID)
         {
             using (SqlConnection connection = new SqlConnection(StringConnection))

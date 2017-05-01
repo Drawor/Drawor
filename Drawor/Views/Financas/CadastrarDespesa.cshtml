@@ -11,98 +11,126 @@
     </div><!-- /.row -->
 </div>
 
-<div class="col-md-12">
-    <div class="form-group">
-        <div class="editor-label col-md-4">
-            <label for="OriginZip" class="required">Nome</label>
-        </div>
-        <div class="editor-field col-md-8">
-            @(Html.Kendo().DropDownList()
+@using (Html.BeginForm("NovaDespesaDespesa", "Financas", FormMethod.Post))
+{
+    <div class="col-md-12">
+        <div class="form-group">
+
+            <div class="form-group col-md-6">
+                <div class="editor-label col-md-4">
+                    <label for="OriginZip" class="required">Valor</label>
+                </div>
+                <div class="editor-field col-md-8">
+                    @(Html.Kendo().NumericTextBoxFor(m => m.Valor).Name("Valor").HtmlAttributes(new { required = "required", style = "width:200px", format = "c" }))
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <div class="editor-label col-md-4">
+                    <label for="OriginZip" class="required">Descrição</label>
+                </div>
+                <div class="editor-field col-md-8">
+                    @(Html.Kendo().TextBoxFor(m => m.Descricao).Name("Descricao").HtmlAttributes(new { required = "required", style = "width:200px" }))
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <div class="editor-label col-md-4">
+                    <label for="VencimentoLabel" class="required">Vencimento</label>
+                </div>
+                <div class="editor-field col-md-8">
+                    @(Html.Kendo().DatePickerFor(m => m.Vencimento).Value(DateTime.Now).Name("Vencimento").HtmlAttributes(new { style = "width:200px" }))
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <div class="editor-label col-md-4">
+                    <label for="OriginZip" class="required">Conta</label>
+                </div>
+                <div class="editor-field col-md-8">
+                    @(Html.Kendo().DropDownList()
                             .Name("Conta")
                             .OptionLabel("Contas")
                             .DataTextField("Text")
                             .DataValueField("Value")
                             .AutoBind(false)
                             //.Events(e => e.Change("filtersChange"))
-                            .HtmlAttributes(new { style = "width: 150px;" })
+                            .HtmlAttributes(new { style = "width: 200px;" })
                             .DataSource(ds =>
                             {
                                 ds.Read("DropDownListContas", "DropDownListFinanceiro");
                             })
-            )
+                    )
+                </div>
+
+            </div>
+            <div class="form-group col-md-6">
+                <div class="editor-label col-md-4">
+                    <label for="OriginZip" class="required">Tipo de Despesa</label>
+                </div>
+                <div class="editor-field col-md-8">
+                    @(Html.Kendo().DropDownList()
+                            .Name("TipoDespesa")
+                            .OptionLabel("Tipos Despesas")
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .AutoBind(false)
+                            //.Events(e => e.Change("filtersChange"))
+                            .HtmlAttributes(new { style = "width: 200px;" })
+                            .DataSource(ds =>
+                            {
+                                ds.Read("DropDownListTipoDespesa", "DropDownListFinanceiro");
+                            })
+                    )
+                </div>
+
+            </div>
         </div>
     </div>
-   
-    @using (Html.BeginForm("Teste", "Pages", FormMethod.Post))
-    {
-        @*@(Html.Kendo().Grid(Model)
-                .Name("Grid")*@
-            //.ToolBar(toolBar =>
-            //    toolBar.Custom()
-            //        .Text("Export To PDF")
-            //        .HtmlAttributes(new { id = "export" })
-            //        .Url(Url.Action("TesteAssemblyPDF", "ExportPDF")))
-            //.ToolBar(toolBar => toolBar.Template("<a class='k-button k-button-icontext' onclick='ExportSelectedResults()' href='#'></span>Export To PDF</a>"))
-            //.Columns(columns =>
-            //{
-            //columns.Bound(p => p.Resultid).Hidden();
-            //columns.Bound(p => p.Type).Hidden();
-            //columns.Bound(p => p.QuoteResponsePriceID).Hidden();
-
-            //columns.Template(c => null).ClientTemplate("<a href='" + Url.Action("PrintSelectedQuote", "LTL") + "/#=QuoteResponsePriceID#'" + "><div class='k-button k-button-icontext'>Print</div></a>").Width(40);
-            @*columns.Command(command => command.Custom("Select").Click("CheckAvaliableCredit")).Width(60);
-            columns.Command(command => command.Custom("Print").Click("PrintSelectedQuote")).Width(60);
-        })
-                .NoRecords("We couldn't find a carrier with this parameters. Please review your input or try again later")
-                .Pageable()
-
-                .Sortable()
-                .Scrollable(scr => scr.Height(430))
-                .Filterable()
-                 .Selectable(selectable => selectable
-              .Mode(GridSelectionMode.Multiple))
-                .Events(events => events.Change("resultsChange"))
-                .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .PageSize(100)
-                    .ServerOperation(false)
-                    )
-        )*@
-       
-        @*
-            <div align="right">
-                @(Html.Kendo().Button().Name("submit").HtmlAttributes(new { type = "submit", @class = "k-primary" }).Content("Continue with Shipment"))
-            </div>
-        *@
-        <div id='myModal' class='modal'>
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div id='myModalContent'></div>
+    <div class="row">
+            <div class="col-md-12">
+                <div align="right">
+                    @(Html.Kendo().Button().Name("submit").HtmlAttributes(new { type = "submit", @class = "k-primary" }).Content("Criar Despesa"))
                 </div>
             </div>
-
         </div>
-        <div>
-            @(Html.Kendo().Button()
+
+}
+    
+                      
+                    
+                    @*<div id='myModal' class='modal'>
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div id='myModalContent'></div>
+                            </div>
+                        </div>
+
+                    </div>*@
+                    
+                    @*<div>
+                        @(Html.Kendo().Button()
                                            .Name("submitFeed")
                                            .Content("SubmitFeed")
                                            .HtmlAttributes(new { type = "button" })
                                            .Events(ev => ev.Click("getForm")))
-        </div>
+                    </div>*@
 
-    }
-
-
-</div>
+                }
 
 
+            </div>
 
-<script type="text/javascript">
+
+
+
+
+
+
+            <script type="text/javascript">
     function getForm()
     {
                 @*$(this).load('@Url.Action("CadastroTipoDespesa", "Financas")');*@
         var TeamDetailPostBackURL = '/Financas/CadastroTipoDespesa';
-        var options = { "backdrop": "static", keyboard: true }; 
+        var options = { "backdrop": "static", keyboard: true };
                 $.ajax({
                     type: "GET",
                     url: TeamDetailPostBackURL,
@@ -110,7 +138,7 @@
                     data: { },
                     datatype: "json",
                     success: function (data) {
-                      
+
                         $('#myModalContent').html(data);
                         $('#myModal').modal(options);
                         $('#myModal').modal('show');
@@ -119,11 +147,11 @@
                     error: function () {
                         alert("Dynamic content load failed.");
                     }
-        });  
+        });
 
                 $("#closbtn").click(function () {
                     $('#myModal').modal('hide');
-                }); 
-      
+                });
+
     }
-</script>
+            </script>

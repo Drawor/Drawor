@@ -26,8 +26,9 @@ namespace Drawor.Financeiro
         }
         public JsonResult DropDownListTipoDespesa()
         {
-            List<SelectListItem> myList = new List<SelectListItem>();
-            //new SelectListItem{ Value="1",Text="Open/In Transit"},        
+            Processo.ProcessoFinancas process = new Processo.ProcessoFinancas();
+
+            List<SelectListItem> myList = process.PegarTodosTiposDespesaDropDownList();
             return Json(myList, JsonRequestBehavior.AllowGet);
         }
     }
