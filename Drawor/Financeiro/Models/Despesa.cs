@@ -13,6 +13,7 @@ namespace Drawor.Financeiro.Models
         public TipoDespesa Categoria { get; set; }
         public Conta Conta { get; set; }
         public double Valor { get; set; }
-
+        public int Id { get;  set; }
+        public DateTime CreateTime { get;  set; }
     }
 }

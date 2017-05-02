@@ -39,13 +39,16 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                  
+                    <li>@Html.ActionLink("Despesas", "Despesas", "Financas")</li>
+                    
 
                     <li id="idFinanceiro" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastro Financeiro<b class="caret"></b></a>
 
                         <ul class="dropdown-menu">
                             <li id="viewCadastroDespesa">@Html.ActionLink("Cadastro de Despesa", "CadastroDespesa", "Financas")</li>
+
 
                             <li id="viewCadastroTipoDespesa">@Html.ActionLink("Cadastro de Tipo de Despesa", "CadastroTipoDespesa", "Financas")</li>
 

@@ -64,11 +64,23 @@ namespace Drawor.Financeiro.Processo
 
         internal List<DespesaViewModel> PegarTodasDespesasViewModel()
         {
-            List<DespesaViewModel> despesasViewModel = new List<DespesaViewModel>();
             Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
-            List<Despesa> tiposDespesa = mapper.PegarTodasDespesas();
+            List<DespesaViewModel> Despesas = mapper.PegarTodasDespesasPartialView();
+         
+            return Despesas;
+        }
 
-            return despesasViewModel;
+        internal DespesaViewModel PegarDespesaViewModelPorId(int id)
+        {
+            Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
+            return mapper.PegarDespesaViewModelPorId(id);
+            
+        }
+
+        internal void AtualizarDespesa(DespesaViewModel despesa)
+        {
+            Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
+             mapper.UpdateDespesas(despesa);
         }
     }
 }

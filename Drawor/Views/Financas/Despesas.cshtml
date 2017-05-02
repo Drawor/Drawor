@@ -16,20 +16,42 @@
     .Name("grid")
     .Columns(columns =>
     {
+        columns.Bound(p => p.Id).Hidden();
         columns.Bound(p => p.Descricao).Title("Descrição");
         columns.Bound(p => p.TipoDespesa).Title("Tipo de Despesa");
-        columns.Bound(p => p.Conta).Title("Conta");
         columns.Bound(p => p.Vencimento).Format("{0:dd/MM/yyyy}").Title("Vencimento");
         columns.Bound(p => p.Valor).Format("{0:c}").Title("Valor"); ;
+        columns.Command(command => command.Custom("Edit").Click("EditDespesa")).Width(60);
     })
     .Pageable()
     .Sortable()
     .Scrollable()
     .Filterable()
-    .HtmlAttributes(new { style = "height:550px;" })
+    .HtmlAttributes(new { style = "height:500px;" })
     .DataSource(dataSource => dataSource
         .Ajax()
         .PageSize(20)
-        .Read(read => read.Action("Orders_Read", "Grid"))
+        .Read(read => read.Action("TodasDespesas", "Financas"))
      )
 )
+
+
+
+
+
+
+
+<script>
+
+    function EditDespesa(e)
+    {
+       debugger;
+       var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+       var urlStart = "@Html.Raw(Url.Action("EditarDespesa", "Financas", new { Id = "passid"}))";
+       var url = urlStart.replace("passid", dataItem.Id);
+       window.location.href = url;
+       debugger;
+    }
+
+
+</script>

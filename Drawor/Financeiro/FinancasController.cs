@@ -17,6 +17,10 @@ namespace Drawor.Financeiro
         {
             return View();
         }
+        public ActionResult Despesas()
+        {
+            return View("Despesas");
+        }
         public ActionResult CadastroDespesa()
         {
             return View("CadastrarDespesa");
@@ -24,6 +28,7 @@ namespace Drawor.Financeiro
         public ActionResult NovaDespesaDespesa(ViewModels.DespesaViewModel novaDespesa)
 
         {
+           
             var currentUserId = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(HttpContext.User.Identity.GetUserId()).Id;
             Financeiro.Processo.ProcessoFinancas processo = new Processo.ProcessoFinancas();
 
@@ -62,10 +67,27 @@ namespace Drawor.Financeiro
 
             Financeiro.Processo.ProcessoFinancas processo = new Processo.ProcessoFinancas();
             despesas = processo.PegarTodasDespesasViewModel();
-
-
+            
             return Json(despesas.ToDataSourceResult(request));
            
+        }
+        public ActionResult EditarDespesa(int? Id)
+        {
+
+            Financeiro.ViewModels.DespesaViewModel despesa = new ViewModels.DespesaViewModel();
+            Financeiro.Processo.ProcessoFinancas processo = new Processo.ProcessoFinancas();
+            despesa = processo.PegarDespesaViewModelPorId((int)Id);
+            despesa.Id = (int)Id;
+            ViewBag.Id = Id.ToString();
+            return View("EditarDespesa", despesa);
+            
+        }
+        public ActionResult UpdateDespesa(Financeiro.ViewModels.DespesaViewModel despesa, string myHiddenInput, string Id)
+        { 
+            Financeiro.Processo.ProcessoFinancas processo = new Processo.ProcessoFinancas();
+           processo.AtualizarDespesa(despesa);
+
+            return View("Despesas");
         }
 
     }

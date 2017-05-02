@@ -13,5 +13,6 @@ namespace Drawor.Financeiro.ViewModels
         public String TipoDespesa { get; set; }
         public String Conta { get; set; }
         public double Valor { get; set; }
+        public int Id { get; internal set; }
     }
 }
