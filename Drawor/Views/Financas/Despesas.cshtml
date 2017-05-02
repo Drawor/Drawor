@@ -21,7 +21,7 @@
         columns.Bound(p => p.TipoDespesa).Title("Tipo de Despesa");
         columns.Bound(p => p.Vencimento).Format("{0:dd/MM/yyyy}").Title("Vencimento");
         columns.Bound(p => p.Valor).Format("{0:c}").Title("Valor"); ;
-        columns.Command(command => command.Custom("Edit").Click("EditDespesa")).Width(60);
+        columns.Command(command => command.Custom("Edit").Click("EditDespesa"));
     })
     .Pageable()
     .Sortable()
