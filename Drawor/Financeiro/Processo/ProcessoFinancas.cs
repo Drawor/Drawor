@@ -39,6 +39,32 @@ namespace Drawor.Financeiro.Processo
             return list;
         }
 
+        internal List<BalancoViewModel> GerarBalanco()
+        {
+            List<BalancoViewModel> balanco = new List<BalancoViewModel>();
+            Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
+
+            List<Financeiro.ViewModels.DespesaViewModel> despesas = mapper.PegarTodasDespesasPartialView();
+            var categorias = mapper.PegarTodosTiposDeDespesaAtivosDropDownList();
+
+            foreach (var item in categorias)
+            {
+                BalancoViewModel newItem = new BalancoViewModel();
+
+                var id = item.Id.ToString();
+                var despesasDaCategoria = (from desCat in despesas
+                                           where desCat.TipoDespesa==item.Nome
+                                           select desCat).ToList();
+                newItem.Total = despesasDaCategoria.Sum(s => s.Valor).ToString();
+                newItem.Categoria = item.Nome;
+
+                balanco.Add(newItem);
+
+            }
+            return balanco;
+
+        }
+
         internal void CriarNovaDespesa(DespesaViewModel novaDespesa, string currentUserId)
         {
             Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();

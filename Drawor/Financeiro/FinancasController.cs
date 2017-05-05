@@ -25,6 +25,11 @@ namespace Drawor.Financeiro
         {
             return View("CadastrarDespesa");
         }
+        public ActionResult Balanco()
+        {
+            
+            return View("Balanco");
+        }
         public ActionResult NovaDespesaDespesa(ViewModels.DespesaViewModel novaDespesa)
 
         {
@@ -34,6 +39,7 @@ namespace Drawor.Financeiro
 
             processo.CriarNovaDespesa(novaDespesa, currentUserId);
 
+            
             return View("CadastrarDespesa");
         }
         public ActionResult CadastroTipoDespesa()
@@ -88,6 +94,15 @@ namespace Drawor.Financeiro
            processo.AtualizarDespesa(despesa);
 
             return View("Despesas");
+        }
+
+        public ActionResult GerarBalanco()
+        {
+            Processo.ProcessoFinancas processo = new Processo.ProcessoFinancas();
+            List<Financeiro.ViewModels.BalancoViewModel> balancos = processo.GerarBalanco();
+
+            return Json(balancos);
+            
         }
 
     }

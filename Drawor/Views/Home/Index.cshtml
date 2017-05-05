@@ -10,19 +10,87 @@
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+       <div class="demo-section k-content wide">
+            @(Html.Kendo().Chart()
+        .Name("chart")
+        .Title("Despesas")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Top)
+        )
+        .ChartArea(chartArea => chartArea
+            .Background("transparent")
+        )
+        .Series(series =>
+        {
+            series.Column(new double[] { 390.70}).Name("Alimentação");
+            series.Column(new double[] { 474.30 }).Name("Vivo Model");
+            series.Column(new double[] { 10.00 }).Name("Vivo Fixo");
+            series.Column(new double[] { 198.08}).Name("Gasolina");
+    })
+        .CategoryAxis(axis => axis
+            .Name("series-axis")
+            .Line(line => line.Visible(true))
+        )
+        .CategoryAxis(axis => axis
+            .Name("label-axis")
+            .Categories("Alimentação","Gasolina","Vivo Movel","Vivo Fixo")
+        )
+        .ValueAxis(axis => axis
+            .Numeric()
+                .Labels(labels => labels.Format("R${0}"))
+
+                // Move the label-axis all the way down the value axis
+                .AxisCrossingValue(0, int.MinValue)
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0}%")
+            .Template("#= series.name #: #= value #")
+        )
+            )
+        </div>
+
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
+        <div class="demo-section k-content wide">
+            @(Html.Kendo().Chart()
+        .Name("chartReceitas")
+        .Title("Receitas")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Top)
+        )
+        .ChartArea(chartArea => chartArea
+            .Background("transparent")
+        )
+        .Series(series =>
+        {
+            series.Column(new double[] {0 }).Name("");
+            series.Column(new double[] { 0 }).Name("");
+            series.Column(new double[] { 0 }).Name("");
+            series.Column(new double[] { 0}).Name("");
+        })
+        .CategoryAxis(axis => axis
+            .Name("series-axis")
+            .Line(line => line.Visible(true))
+        )
+        .CategoryAxis(axis => axis
+            .Name("label-axis")
+            .Categories("Alimentação", "Gasolina", "Vivo Movel", "Vivo Fixo")
+        )
+        .ValueAxis(axis => axis
+            .Numeric()
+                .Labels(labels => labels.Format("R${0}"))
+
+                // Move the label-axis all the way down the value axis
+                .AxisCrossingValue(0, int.MinValue)
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0}%")
+            .Template("#= series    .name #: #= value #")
+        )
+            )
+        </div>
     <div class="col-md-4">
         <h2>Web Hosting</h2>
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>

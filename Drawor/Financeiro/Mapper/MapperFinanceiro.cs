@@ -21,7 +21,7 @@ namespace Drawor.Financeiro.Mapper
         private string SelectContasAtivas = "SELECT * Contas where obsoleto = false";
         private string SelectContasAtivasDropDownList = "SELECT Id,Nome from Contas where Obsoleto = 'FALSE'";
         private string SelectTipoDespesaAtivasDropDownList = "SELECT Id,Nome from TiposDespesa where Obsoleto = 'FALSE'";
-        private string SelectTodasDespesasViewModel = @"select D.Id as DespesaId,D.EstaPago,D.Vencimento,T.Nome as TipoDespesaNome, D.Valor,D.Descricao from Despesas as D
+        private string SelectTodasDespesasViewModel = @"select D.Id as DespesaId,D.EstaPago,D.Vencimento,T.Nome as TipoDespesaNome, D.Valor from Despesas as D
                                                         join TiposDespesa as T on T.Id = D.TipoDespesaId
                                                         join Contas as C on C.Id = D.ContaId";
         private string SelectDespesaViewModelPorId = @"select * from Despesas where Id = @Id";
@@ -259,7 +259,6 @@ namespace Drawor.Financeiro.Mapper
                         Despesa.EstaPago = dataReader["EstaPago"].ToString() =="TRUE" ? true : false;
                         Despesa.Vencimento = DateTime.Parse(dataReader["Vencimento"].ToString());
                         Despesa.TipoDespesa = dataReader["TipoDespesaNome"].ToString();
-                        Despesa.Descricao = dataReader["Descricao"].ToString();
                         Despesa.Valor = Convert.ToDouble(dataReader["Valor"]);
 
                         despesas.Add(Despesa);
