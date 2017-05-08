@@ -67,7 +67,7 @@
 
         </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
             <div class="demo-section k-content wide">
                 @(Html.Kendo().Chart()
         .Name("chartReceitas")
@@ -91,7 +91,7 @@
         )
         .CategoryAxis(axis => axis
             .Name("label-axis")
-            .Categories("Alimentação", "Gasolina", "Vivo Movel", "Vivo Fixo")
+            .Categories("Depesas do Mes")
         )
         .ValueAxis(axis => axis
             .Numeric()

@@ -11,8 +11,9 @@
     </div><!-- /.row -->
 </div>
 
-@using (Html.BeginForm("NovaDespesaDespesa", "Financas", FormMethod.Post))
+@using (Html.BeginForm("NovaDespesa", "Financas", FormMethod.Post))
 {
+    @Html.Hidden("ComprovanteId")
     <div class="col-md-12">
         <div class="form-group">
 
@@ -83,6 +84,32 @@
                 </div>
 
             </div>
+            <div class="form-group col-md-6">
+                <div class="editor-label col-md-4">
+                    <label for="OriginZip" class="required">Salvar Comprovante</label>
+                </div>
+                <div class="editor-field col-md-8">
+                   @(Html.Kendo().Upload()
+            .Name("Comprovante")
+            .HtmlAttributes(new { style = "width: 150px;" })
+             .Async(a => a
+                .Save("UploadComprovante", "Financas")
+                .AutoUpload(true)
+            )
+            .Messages(m => m.Select("Escolher Arquivo"))
+            .Events(events => events
+             .Success("onSuccess")
+           // .Complete("onComplete")
+           // .Error("onError")
+
+
+           //.Upload("onUpload")
+           )
+            )
+                
+                </div>
+
+            </div>
         </div>
     </div>
     <div class="row">
@@ -145,3 +172,13 @@
 
     }
             </script>
+
+@*upload*@
+<script>
+
+    function onSuccess(e) {
+        debugger;
+
+        $("#ComprovanteId").val(e.response);
+    }
+</script>

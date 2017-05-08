@@ -13,11 +13,13 @@ namespace Drawor.Financeiro.Mapper
     {
         Tools.ToolsDataTImecs toolDateTime = null;
         private string StringConnection = string.Empty;
+        private string SelectMaxArquivoId = "SELECT MAX(Id) as Id FROM Arquivos";
         private string InsertTipoDespesa = "INSERT INTO TiposDespesa (Nome,Cor,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Cor,@CreateTime,@CreateBy,@Obsoleto)";
         private string InsertConta = "INSERT INTO Contas (Nome,Saldo,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Saldo,@CreateTime,@CreateBy,@Obsoleto)";
+        private string InsertComprovante = "INSERT INTO Arquivos (Nome,bytes,TipoArquivo,CreateTime,CreateBy) VALUES(@Nome,@bytes,@TipoArquivo,@CreateTime,@CreateBy)";
         private string SelectContaPorId = "Select * from Contas where Id = @Id";
         private string SelectTipoDespesaId = "Select * from TiposDespesa where Id = @Id";
-        private string InsertDespesas = "INSERT INTO Despesas (EstaPago,Vencimento,TipoDespesaId,ContaId,Valor,CreateTime,CreateBy,Obsoleto,Descricao) VALUES(@EstaPago,@Vencimento,@TipoDespesaId,@ContaId,@Valor,@CreateTime,@CreateBy,@Obsoleto,@Descricao)";
+        private string InsertDespesas = "INSERT INTO Despesas (EstaPago,Vencimento,TipoDespesaId,ContaId,Valor,CreateTime,CreateBy,Obsoleto,Descricao,Comprovante) VALUES(@EstaPago,@Vencimento,@TipoDespesaId,@ContaId,@Valor,@CreateTime,@CreateBy,@Obsoleto,@Descricao,@Comprovante)";
         private string SelectContasAtivas = "SELECT * Contas where obsoleto = false";
         private string SelectContasAtivasDropDownList = "SELECT Id,Nome from Contas where Obsoleto = 'FALSE'";
         private string SelectTipoDespesaAtivasDropDownList = "SELECT Id,Nome from TiposDespesa where Obsoleto = 'FALSE'";
@@ -27,7 +29,9 @@ namespace Drawor.Financeiro.Mapper
         private string SelectDespesaViewModelPorId = @"select * from Despesas where Id = @Id";
 
         private string UpdateDespesa = @"UPDATE Despesas SET EstaPago = @EstaPago,SET Vencimento =@Vencimento, SET TipoDespesaId =@TipoDespesaId, SET ContaId = @ContaId, SET Valor = @Valor, SET Descricao =@Descricao, SET Atualizacao =@Atualizacao, where Despesas.Id = @Id";
-
+        private string SelectComprovanteById = @"select TipoArquivo.Nome as Tipo, Arquivos.bytes as Bytes from Arquivos
+                                                  join TipoArquivo on TipoArquivo.Id = TipoArquivo
+                                                  where Arquivos.Id = @Id";
 
         public MapperFinanceiro()
         {
@@ -80,6 +84,34 @@ namespace Drawor.Financeiro.Mapper
                         //  cmd.Parameters.Add(new SqlParameter("@CreateTime", DateTime.Now));
                         //   cmd.Parameters.Add(new SqlParameter("@CreateBy", despesa));
                         //cmd.Parameters.Add(new SqlParameter("@Obsoleto", false));
+                        cn.Open();
+                        cmd.ExecuteNonQuery();
+                        cn.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+
+        internal void InserirComprovante(Comprovante comprovante, string currentUserId)
+        {
+            using (SqlConnection connection = new SqlConnection(StringConnection))
+            {
+                try
+                {
+                    using (SqlConnection cn = new SqlConnection(StringConnection))
+                    using (SqlCommand cmd = new SqlCommand(InsertComprovante, cn))
+                    {
+                        //  @Nome,@String64,@TipoArquivo,@CreateTime,@CreateBy
+                        cmd.Parameters.Add(new SqlParameter("@Nome", comprovante.NomeArquito));
+                        cmd.Parameters.Add(new SqlParameter("@bytes", comprovante.Bytes));
+                        cmd.Parameters.Add(new SqlParameter("@TipoArquivo",Convert.ToInt32(comprovante.Type)));
+                        cmd.Parameters.Add(new SqlParameter("@CreateTime", DateTime.Now));
+                        cmd.Parameters.Add(new SqlParameter("@CreateBy", currentUserId));
+                       
                         cn.Open();
                         cmd.ExecuteNonQuery();
                         cn.Close();
@@ -156,6 +188,8 @@ namespace Drawor.Financeiro.Mapper
                         cmd.Parameters.Add(new SqlParameter("@CreateTime", DateTime.Now));
                         cmd.Parameters.Add(new SqlParameter("@CreateBy", currentUserId));
                         cmd.Parameters.Add(new SqlParameter("@Obsoleto", false));
+                        cmd.Parameters.Add(new SqlParameter("@Comprovante", Convert.ToInt32(novaDespesa.ComprovanteId)));
+                       
                         cn.Open();
                         cmd.ExecuteNonQuery();
                         cn.Close();
@@ -471,6 +505,74 @@ namespace Drawor.Financeiro.Mapper
             }
 
             return contas;
+        }
+        public List<string> PegarUltimoIdArquivos()
+        {
+            List<string> ids = new List<string>();
+            using (SqlConnection connection = new SqlConnection(StringConnection))
+            {
+                try
+                {
+                    using (SqlConnection cn = new SqlConnection(StringConnection))
+                    using (SqlCommand cmd = new SqlCommand(SelectMaxArquivoId, cn))
+                    {
+                        cn.Open();
+                        var dataReader = cmd.ExecuteReader();
+                        while (dataReader.Read())
+                        {
+                            var Id = dataReader["Id"];
+
+                            ids.Add(Id.ToString());
+                        }
+
+                        cn.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return ids;
+          
+        }
+        internal Comprovante PegarComprovanteporId(int id)
+        {
+            List<Comprovante> comprovantes = new List<Comprovante>();
+            using (SqlConnection connection = new SqlConnection(StringConnection))
+            {
+                try
+                {
+                    //   private string InsertConta = "INSERT INTO Contas (Nome,Saldo,CreateTime,CreateBy,Obsoleto) VALUES(@Nome,@Saldo,@CreateTime,@CreateBy,@Obsoleto)";
+                    connection.Open();
+                    using (SqlCommand cmd = new SqlCommand(SelectComprovanteById, connection))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@Id", id));
+
+                        //   cn.Open();
+                        var dataReader = cmd.ExecuteReader();
+                        while (dataReader.Read())
+                        {
+                            Comprovante comprovante = new Comprovante();
+                            
+                            comprovante.ContentType = dataReader["Tipo"].ToString();
+                            comprovante.Bytes = (byte[])dataReader["Bytes"];
+                            
+                            comprovantes.Add(comprovante);
+
+                        }
+
+                        dataReader.Close();
+                        cmd.Dispose();
+                        connection.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return comprovantes.FirstOrDefault();
         }
     }
 }

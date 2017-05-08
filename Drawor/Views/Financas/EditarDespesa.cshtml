@@ -99,29 +99,29 @@
 
 
 
-@*<div id='myModal' class='modal'>
+<div id='myModal' class='modal'>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div id='myModalContent'></div>
             </div>
         </div>
 
-    </div>*@
+    </div>
 
-@*<div>
+<div>
         @(Html.Kendo().Button()
                            .Name("submitFeed")
                            .Content("SubmitFeed")
                            .HtmlAttributes(new { type = "button" })
                            .Events(ev => ev.Click("getForm")))
-    </div>*@
+    </div>
 
 
 <script type="text/javascript">
     function getForm()
     {
                 @*$(this).load('@Url.Action("CadastroTipoDespesa", "Financas")');*@
-        var TeamDetailPostBackURL = '/Financas/CadastroTipoDespesa';
+        var TeamDetailPostBackURL = '/Financas/PegarComprovanteById/3';
         var options = { "backdrop": "static", keyboard: true };
                 $.ajax({
                     type: "GET",

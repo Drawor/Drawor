@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Drawor.Financeiro.Models;
 using Drawor.Financeiro.ViewModels;
+using System.IO;
 
 namespace Drawor.Financeiro.Processo
 {
@@ -47,6 +48,7 @@ namespace Drawor.Financeiro.Processo
             List<Financeiro.ViewModels.DespesaViewModel> despesas = mapper.PegarTodasDespesasPartialView();
             var categorias = mapper.PegarTodosTiposDeDespesaAtivosDropDownList();
 
+            double Total = 0;
             foreach (var item in categorias)
             {
                 BalancoViewModel newItem = new BalancoViewModel();
@@ -55,7 +57,9 @@ namespace Drawor.Financeiro.Processo
                 var despesasDaCategoria = (from desCat in despesas
                                            where desCat.TipoDespesa==item.Nome
                                            select desCat).ToList();
-                newItem.Total = despesasDaCategoria.Sum(s => s.Valor).ToString();
+                var itemTotal = despesasDaCategoria.Sum(s => s.Valor);
+                Total = Total + itemTotal;
+                newItem.Total = itemTotal.ToString();
                 newItem.Categoria = item.Nome;
 
                 balanco.Add(newItem);
@@ -107,6 +111,45 @@ namespace Drawor.Financeiro.Processo
         {
             Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
              mapper.UpdateDespesas(despesa);
+        }
+
+        internal void InserirComprovante(HttpPostedFileBase item,string currentUserId)
+        {
+            Comprovante comprovante = new Comprovante();
+            if (item.ContentType.Equals("image/jpeg"))
+            {
+               
+                    comprovante.Bytes = ToByteArray(item.InputStream);
+                    comprovante.ContentType = item.ContentType;
+                    comprovante.NomeArquito = item.FileName;
+                comprovante.Type = "1";
+              
+            }
+            Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
+            mapper.InserirComprovante(comprovante, currentUserId);
+        }
+
+        internal IEnumerable<string> PegarUltimoIdArquivos()
+        {
+            Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
+            return mapper.PegarUltimoIdArquivos();
+        }
+        public static byte[] ToByteArray(Stream stream)
+        {
+            using (stream)
+            {
+                using (MemoryStream memStream = new MemoryStream())
+                {
+                    stream.CopyTo(memStream);
+                    return memStream.ToArray();
+                }
+            }
+        }
+        public Comprovante PegarComprovantebyId(int id)
+        {
+            Mapper.MapperFinanceiro mapper = new Mapper.MapperFinanceiro();
+
+            return mapper.PegarComprovanteporId(id);
         }
     }
 }

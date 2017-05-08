@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,16 +31,16 @@ namespace Drawor.Financeiro
             
             return View("Balanco");
         }
-        public ActionResult NovaDespesaDespesa(ViewModels.DespesaViewModel novaDespesa)
+        public ActionResult NovaDespesa(ViewModels.DespesaViewModel novaDespesa)
 
         {
-           
+
             var currentUserId = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(HttpContext.User.Identity.GetUserId()).Id;
             Financeiro.Processo.ProcessoFinancas processo = new Processo.ProcessoFinancas();
 
             processo.CriarNovaDespesa(novaDespesa, currentUserId);
 
-            
+
             return View("CadastrarDespesa");
         }
         public ActionResult CadastroTipoDespesa()
@@ -104,6 +105,26 @@ namespace Drawor.Financeiro
             return Json(balancos);
             
         }
+        public ActionResult UploadComprovante(IEnumerable<HttpPostedFileBase> Comprovante)
+        {
+            var currentUserId = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(HttpContext.User.Identity.GetUserId()).Id;
+            Processo.ProcessoFinancas processo = new Processo.ProcessoFinancas();
+           
+            List<string> ids = new List<string>();
+            foreach (var item in Comprovante)
+            {
+                processo.InserirComprovante(item, currentUserId);
+                ids.AddRange( processo.PegarUltimoIdArquivos());
+            }
 
+            return Json(ids.FirstOrDefault());
+        }
+        public ActionResult PegarComprovanteById(int? Id)
+        {
+            Processo.ProcessoFinancas processo = new Processo.ProcessoFinancas();
+            var comprovante = processo.PegarComprovantebyId((int)Id);
+
+            return File(comprovante.Bytes, comprovante.ContentType);
+        }
     }
 }
